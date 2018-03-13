@@ -34,7 +34,7 @@ $(document).ready(function(){
 	});
 
 	$('#indirge').click(function(){
-	    var socket = io.connect("http://localhost:1111");
+	    var socket = io.connect("http://30.10.21.49:1111");
 	    socket.emit("test", latlong);
 	    alert("ham veri gonderildi");
 	});
