@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+	<title>Client</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="./public/style.css">
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+	<script>
+		window.$ = window.JQuery = require('./public/jquery.js');
+	</script>
+	
+	<script src="socket.io.slim.js"></script>
+
+	<script type="text/javascript" src="./public/js.js"></script>
+
+</head>
+<body>
+    <div id="map"></div>
+
+	<input type="file" id="dosya">
+	<button class="btn-primary btn-lg" id="read-file">Read File</button>
+	<button class="btn-primary btn-lg" id="set-map">Set Map</button>
+	<button class="btn-primary btn-lg" id="sifirla">Sıfırla</button>
+	<button class="btn-primary btn-lg" id="indirge">Indirge</button>
+
+	<p id="gelen-veri"></p>
+
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDgi4AVr-JQcPDyrtEEdKnKj9J3PzY9vPs&callback=initMap">
+    </script>
+</body>	
+</html>	
