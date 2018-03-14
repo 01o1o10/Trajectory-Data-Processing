@@ -86,9 +86,22 @@ const alg = require("./modullar/algoritma");
  
 io.sockets.on('connection', function (socket) {
   console.log("client sunucuya bağlandı");
- 
     socket.on("test", function (data) {
       console.log("alınan veri yazdırılıyor");
       console.log(data);
+      console.log("ham veri yazdırıldı");
+
+      var veri = alg.indirge(data);
+      verigonder(socket, veri);
+      console.log("indirgenmis veri yazdırıldı");
+    });
+
+    socket.on("kayfa", function(data){
+      console.log(data);
     });
 });
+
+
+function verigonder(socket, das) {
+  socket.emit("test", das);
+}

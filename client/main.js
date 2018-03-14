@@ -64,7 +64,7 @@ app.on('activate', function () {
 
 //Socket
 
-var http = require("http");
+/*var http = require("http");
  
 var server = http.createServer(processRequest).listen(2222, "127.0.0.1");
  
@@ -90,4 +90,4 @@ io.sockets.on('connection', function (socket) {
         console.log(data);
     });
  
-});
+});*/
