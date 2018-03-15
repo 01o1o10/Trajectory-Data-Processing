@@ -91,10 +91,17 @@ io.sockets.on('connection', function (socket) {
       console.log(data);
       console.log("ham veri yazdırıldı");
 
-      var veri = alg.indirge(data);
-      verigonder(socket, veri);
-      console.log("indirgenmis veri yazdırıldı");
+      var veri = alg(data, 0.0000001);
+
+      if(veri.length != data.length){
+        verigonder(socket, veri);
+        console.log("indirgenmis veri yazdırıldı");
+      }
+      else{
+        console.log("veri indirgenmiyor");
+      }
     });
+
 
     socket.on("kayfa", function(data){
       console.log(data);

@@ -2,7 +2,6 @@ $(document).ready(function(){
 	const fs = require('fs');
 	const socket = require('socket.io');
 	latlong = [];
-	color = "red";
 	$('#set-map').click(function(){
 		var yol = document.getElementById('dosya').files[0].path;
 
@@ -18,11 +17,13 @@ $(document).ready(function(){
 					latlong.push(json);
 				}
 			}
+			color = 'red';
 			initMap();
 		});
 	});
 
 	$('#sifirla').click(function(){
+		latlong = [];
 		initMap();
 	});
 
@@ -30,17 +31,26 @@ $(document).ready(function(){
 	    var socket = io.connect("http://localhost:1111");
 		socket.emit("test", latlong);
 		socket.on("test", function(data){
-			latlong = data;
+
+
 			color = "green";
-			initMap();
+			var flightPath = new google.maps.Polyline({
+				path: data,
+				geodesic: true,
+				strokeColor: color,
+				strokeOpacity: 1.0,
+				strokeWeight: 3
+			});
+			
+			flightPath.setMap(map);
 		});
 	});
 
 });
 
 function initMap() {
-	var map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 13,
+		global.map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 15,
 		center: latlong[0],
 		mapTypeId: 'terrain'
 	});
