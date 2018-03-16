@@ -26,15 +26,24 @@
 
 </head>
 <body>
-    <div id="map"></div>
-
-	<input type="file" id="dosya"><input type="number" id="tolerans"></br>
-	<button class="btn-primary btn-lg" id="set-map">Set Map</button>
-	<button class="btn-primary btn-lg" id="sifirla">Sıfırla</button>
-	<button class="btn-primary btn-lg" id="indirge">Indirge</button>
-	<button class="btn-primary btn-lg" id="sorgula">Sorgula</button>
-
-	<p id="gelen-veri"></p>
+	<div id="map"></div>
+	<div class="row">
+		<div class="col"><input type="file" id="dosya"></div>
+		<div class="col"><lebel>Tolerans: </lebel><input type="number" id="tolerans"></div>
+	</div>
+	<div class="row">
+		<div class="btn-group btn-group-lg">
+			<button type="button" class="btn btn-primary" id="set-map">Set Map</button>
+			<button type="button" class="btn btn-primary" id="sifirla">Sıfırla</button>
+			<button type="button" class="btn btn-primary" id="indirge">Indirge</button>
+			<button type="button" class="btn btn-primary" id="sorgula">Sorgula</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<h2 id="msg"></h2>
+		</div>
+	</div>
 
     <script async defer
     	src="https://maps.googleapis.com/maps/api/js?key= AIzaSyDgi4AVr-JQcPDyrtEEdKnKj9J3PzY9vPs&callback=initMap">

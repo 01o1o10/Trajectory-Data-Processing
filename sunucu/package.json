@@ -20,6 +20,7 @@
     "electron": "~1.8.2"
   },
   "dependencies": {
+    "events": "^2.0.0",
     "express": "^4.16.3",
     "nodemon": "^1.17.2",
     "socket.io": "^2.0.4"

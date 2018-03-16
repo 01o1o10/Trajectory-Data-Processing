@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function rdp(points, epsilon){
+module.exports = function rdp(points, epsilon, calback){
 	var i,
 		maxIndex = 0,
 		maxDistance = 0,
@@ -24,7 +24,7 @@ module.exports = function rdp(points, epsilon){
 	}
 	// if max distance is greater than epsilon, recursively simplify
 	if (maxDistance >= epsilon) {
-		leftRecursiveResults = rdp(points.slice(1, maxIndex), epsilon);
+		leftRecursiveResults = rdp(points.slice(0, maxIndex), epsilon);
 		rightRecursiveResults = rdp(points.slice(maxIndex), epsilon);
 		filteredPoints = leftRecursiveResults.concat(rightRecursiveResults);
 	} else {

@@ -34,10 +34,16 @@ $(document).ready(function(){
 		socket.emit("indirgeme", veri);
 		socket.on("indirgenmisveri", function(data){
 
+			var simplelatlong = data.ll;
+			var indigemeorani = data.oran;
+			var sure = data.sure;
+
+			$('#msg').text("Indirgeme oranı: " + indigemeorani);
+			$('#msg').append("</br>Indirgeme süresi: " + sure);
 
 			color = "green";
 			var flightPath = new google.maps.Polyline({
-				path: data,
+				path: simplelatlong,
 				geodesic: true,
 				strokeColor: color,
 				strokeOpacity: 1.0,

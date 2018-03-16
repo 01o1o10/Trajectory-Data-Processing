@@ -19,6 +19,10 @@ function processRequest(request, response) {
 var io = require("socket.io").listen(server);
 const alg = require("./modullar/algoritma");
 const qtree = require("./modullar/quadtree");
+
+
+const events = require("events");
+const ev = new events.EventEmitter();
  
 io.sockets.on('connection', function (socket) {
 
@@ -28,15 +32,17 @@ io.sockets.on('connection', function (socket) {
     var latlong = data.path;
     var tolerans = data.tol;
 
-    var veri = alg(latlong, tolerans);
+    var date = new Date();
+    var d1, d2;
+    
+    d1 = date.getTime();
+    var simplelatlong = alg(latlong, tolerans);
+    d2 = date.getTime();
 
-    if(veri.length != latlong.length){
-      socket.emit("indirgenmisveri", veri);
-      console.log("veri başarıyla indirgendi");
-    }
-    else{
-      console.log("veri indirgenmiyor");
-    }
+    var indirgemesuresi = d2 - d1;
+    var indirgemeorani = (1 - (simplelatlong.length/latlong.length))*100;
+    var veri = {oran: indirgemeorani, ll: simplelatlong, sure: indirgemesuresi};
+    socket.emit("indirgenmisveri", veri);
   });
 
 
@@ -46,19 +52,15 @@ io.sockets.on('connection', function (socket) {
     var kok = new qtree.kare();
     qtree.kokolustur(kok, 128, -128, -128, 128);
     agacolustur(kok, path);
-    qtree.kapsayanalanbul(kok, sinirlar);
+    console.log("BITTIYSE BITTI DE ABISI :d :d :d ");
+    //console.log(kok);
+    //qtree.kapsayanalanbul(kok, sinirlar);
   });
 });
 
-var sayac = 0;
 
 function agacolustur(kok, path){
-  setTimeout(olustur(kok, path), 200);
-}
-
-function olustur(kok, path){
-  if(path.length > sayac){
-    qtree.addpoint(kok, path[sayac]);
-    sayac++;
+  for(i in path){
+    qtree.addpoint(kok, path[i]);
   }
 }
