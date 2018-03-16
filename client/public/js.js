@@ -30,7 +30,7 @@ $(document).ready(function(){
 	$('#indirge').click(function(){
 	    var socket = io.connect("http://localhost:1111");
 		socket.emit("test", latlong);
-		socket.on("test", function(data){
+		socket.on("indirgenmisveri", function(data){
 
 
 			color = "green";
@@ -43,6 +43,16 @@ $(document).ready(function(){
 			});
 			
 			flightPath.setMap(map);
+		});
+	});
+
+	$('#sorgula').click(function(){
+		var socket = io.connect("http://localhost:1111");
+		var sinir = {top: latlong[10].lat, buttom: latlong[20].lat, left: latlong[10].lng, right: latlong[20].lng};
+		var veri = {path: latlong, sinirlar: sinir};
+		socket.emit("alansorgulama", veri);
+		socket.on("sorgusonucu", function(data){
+			alert("veri geldi");
 		});
 	});
 
