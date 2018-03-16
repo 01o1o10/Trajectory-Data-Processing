@@ -12,6 +12,8 @@ module.exports = {kare:
 		kok.sinirlar = {top: stop, buttom: sbuttom, left: sleft, right: sright};
 	},
 
+	a: 0,
+
 	addpoint: function(tree, point){
 		var hedefkare = this.karedondur(tree, point);
 		if(hedefkare.point == undefined){
@@ -26,7 +28,8 @@ module.exports = {kare:
 	},
 
 	karedondur: function(tree, point){
-
+		this.a++;
+		console.log(this.a);
 		if(tree.childrens !== undefined){
 			if(tree.childrens.kb.sinirlar.top > point.lat && tree.childrens.kb.sinirlar.buttom < point.lat && tree.childrens.kb.sinirlar.right > point.lng && tree.childrens.kb.sinirlar.left < point.lng){
 				tree = this.karedondur(tree.childrens.kb, point);
@@ -40,11 +43,13 @@ module.exports = {kare:
 			else if(tree.childrens.gd.sinirlar.top > point.lat && tree.childrens.gd.sinirlar.buttom < point.lat && tree.childrens.gd.sinirlar.right > point.lng && tree.childrens.gd.sinirlar.left < point.lng){
 				tree = this.karedondur(tree.childrens.gd, point);
 			}
-			return tree;
 		}
 		else{
+			this.a--;
 			return tree;
 		}
+		this.a--;
+		return tree;
 	},
 
 	cocukolustur: function(parentkare){

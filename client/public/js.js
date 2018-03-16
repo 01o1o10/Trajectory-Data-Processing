@@ -28,8 +28,10 @@ $(document).ready(function(){
 	});
 
 	$('#indirge').click(function(){
-	    var socket = io.connect("http://localhost:1111");
-		socket.emit("test", latlong);
+		var socket = io.connect("http://localhost:1111");
+		var tolerans = $('#tolerans').val();
+		var veri = {tol: tolerans, path: latlong};
+		socket.emit("indirgeme", veri);
 		socket.on("indirgenmisveri", function(data){
 
 

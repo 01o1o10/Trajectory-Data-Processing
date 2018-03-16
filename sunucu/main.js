@@ -24,16 +24,15 @@ io.sockets.on('connection', function (socket) {
 
   console.log("client sunucuya bağlandı");
 
-  socket.on("test", function (data) {
-    console.log("alınan veri yazdırılıyor");
-    console.log(data);
-    console.log("ham veri yazdırıldı");
+  socket.on("indirgeme", function (data) {
+    var latlong = data.path;
+    var tolerans = data.tol;
 
-    var veri = alg(data, 0.00001);
+    var veri = alg(latlong, tolerans);
 
-    if(veri.length != data.length){
+    if(veri.length != latlong.length){
       socket.emit("indirgenmisveri", veri);
-      console.log("indirgenmis veri yazdırıldı");
+      console.log("veri başarıyla indirgendi");
     }
     else{
       console.log("veri indirgenmiyor");
@@ -51,8 +50,15 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
+var sayac = 0;
+
 function agacolustur(kok, path){
-  for(point in path){
-    qtree.addpoint(kok, path[point]);
+  setTimeout(olustur(kok, path), 200);
+}
+
+function olustur(kok, path){
+  if(path.length > sayac){
+    qtree.addpoint(kok, path[sayac]);
+    sayac++;
   }
 }
