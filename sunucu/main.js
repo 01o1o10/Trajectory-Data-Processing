@@ -20,9 +20,6 @@ var io = require("socket.io").listen(server);
 const alg = require("./modullar/algoritma");
 const qtree = require("./modullar/quadtree");
 
-
-const events = require("events");
-const ev = new events.EventEmitter();
  
 io.sockets.on('connection', function (socket) {
 
