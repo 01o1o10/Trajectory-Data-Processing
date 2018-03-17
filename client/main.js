@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 1000})
+  mainWindow = new BrowserWindow({width: 1000, height: 800})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -58,36 +58,3 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-
-
-
-//Socket
-
-/*var http = require("http");
- 
-var server = http.createServer(processRequest).listen(2222, "127.0.0.1");
- 
-function processRequest(request, response) {
- 
-    response.writeHead(200, {
-        "Content-Type": "text/html"
-    });
- 
-    response.write("Client");
- 
-    response.end();
- 
-}
- 
-var io = require("socket.io").listen(server);
- 
-io.sockets.on('connection', function (socket) {
-    console.log("sunucu cliente bağlandı");
- 
-    socket.on("test", function (data) {
-        console.log("alinan veri yazdırılıyor...");
-        console.log(data);
-    });
- 
-});*/

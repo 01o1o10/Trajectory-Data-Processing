@@ -51,16 +51,17 @@ io.sockets.on('connection', function (socket) {
     var sinirlar = data.sinirlar;
     var kok = new qtree.kare();
     qtree.kokolustur(kok, 128, -128, -128, 128);
-    agacolustur(kok, path);
-    console.log("BITTIYSE BITTI DE ABISI :d :d :d ");
-    //console.log(kok);
-    //qtree.kapsayanalanbul(kok, sinirlar);
+    agacolustur(kok, path, sinirlar);
   });
 });
 
 
-function agacolustur(kok, path){
+function agacolustur(kok, path, sinirlar){
   for(i in path){
-    qtree.addpoint(kok, path[i]);
+    qtree.karebul(kok, path[i]);
+    console.log("Veri indeksleniyor: " + Math.round((i/path.length)*100) + "%");
+    if(i == path.length-1){
+      console.log("bitti abi");
+    }
   }
 }
