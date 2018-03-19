@@ -29,12 +29,12 @@ $(document).ready(function(){
 
 	$('#indirge').click(function(){
 		var socket = io.connect("http://localhost:1111");
-		var tolerans = ($('#tolerans').val())/166985;
+		var tolerans = ($('#tolerans').val())/1000000;
 		var veri = {tol: tolerans, path: latlong};
 		socket.emit("indirgeme", veri);
 		socket.on("indirgenmisveri", function(data){
 
-			var simplelatlong = data.ll;
+			simplelatlong = data.ll;
 			var indigemeorani = data.oran;
 			var sure = data.sure;
 
@@ -56,36 +56,43 @@ $(document).ready(function(){
 
 	$('#sorgula').click(function(){
 		var socket = io.connect("http://localhost:1111");
-		
-		var sinir = {top: 0, buttom: 0, left: 0, right: 0};
-		if(click1.lat > click2.lat){
-			sinir.top = click1.lat;
-			sinir.buttom = click2.lat;
-		} else {
-			sinir.top = click2.lat;
-			sinir.buttom = click1.lat;
+		var secim = $('select[name=secim]').val();
+		var veri;
+		if(secim == "ham"){
+			veri = {path: latlong, sinirlar: sinir};
 		}
-		if(click1.lng > click2.lng){
-			sinir.left = click2.lng;
-			sinir.right = click1.lng;
-		} else {
-			sinir.right = click2.lng;
-			sinir.left = click1.lng;
+		else{
+			veri = {path: simplelatlong, sinirlar: sinir};
 		}
-		
-		var veri = {path: latlong, sinirlar: sinir};
 		socket.emit("alansorgulama", veri);
 		socket.on("sorgusonucu", function(data){
-			alert("veri geldi");
+			alert("Nokta sayısı: " + data.length);
+			for(var i in data){
+				addMarker(data[i]);
+			}
 		});
+
+		
+		function addMarker(location) {
+			// Add the marker at the clicked location, and add the next-available label
+			// from the array of alphabetical characters.
+			var marker = new google.maps.Marker({
+			  position: location,
+			  map: map
+			});
+		}
 	});
 });
 
+var marker;
+var map;
+var simplelatlong;
+var sinir = {top: 0, buttom: 0, left: 0, right: 0};
 var clickcounter = 0;
 var click1, click2;
 
 function initMap() {
-		global.map = new google.maps.Map(document.getElementById('map'), {
+		map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 15,
 		center: latlong[0],
 		mapTypeId: 'terrain'
@@ -99,14 +106,52 @@ function initMap() {
 		strokeWeight: 3
 	});
 
-
 	google.maps.event.addListener(map, 'click', function( event ){
 		clickcounter++;
 		if(clickcounter == 1){
 			click1 = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+			
+			marker = new google.maps.Marker({
+				position: click1,
+				map: map,
+				title: 'A'
+			});
 		}
 		else if(clickcounter == 2){
 			click2 = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+
+			if(click1.lat > click2.lat){
+				sinir.top = click1.lat;
+				sinir.buttom = click2.lat;
+			} else {
+				sinir.top = click2.lat;
+				sinir.buttom = click1.lat;
+			}
+			if(click1.lng > click2.lng){
+				sinir.left = click2.lng;
+				sinir.right = click1.lng;
+			} else {
+				sinir.right = click2.lng;
+				sinir.left = click1.lng;
+			}
+
+			var rectangle = new google.maps.Rectangle({
+				strokeColor: '#0000FF',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#00FF00',
+				fillOpacity: 0.20,
+				map: map,
+				bounds: {
+				north: sinir.top,
+				south: sinir.buttom,
+				east: sinir.right,
+				west: sinir.left
+				}
+			});
+
+			marker.setMap(null);
+			rectangle.setMap(map);
 			clickcounter = 0;
 		}
 	});

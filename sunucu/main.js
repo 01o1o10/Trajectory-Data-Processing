@@ -46,10 +46,9 @@ io.sockets.on('connection', function (socket) {
   socket.on("alansorgulama", function(data){
     var path = data.path;
     sinirlar = data.sinirlar;
-    console.log(sinirlar);
     var kok = new qtree.kare();
     qtree.kokolustur(kok, 128, -128, -128, 128);
-    agacolustur(kok, path, sinirlar);
+    socket.emit("sorgusonucu", agacolustur(kok, path, sinirlar));
   });
 });
 
@@ -57,12 +56,10 @@ var sinirlar;
 var sorgu = [];
 
 function agacolustur(kok, path, sinirlar){
-  for(i in path){
+  for(var i in path){
     qtree.karebul(kok, path[i]);
     if(i == path.length-1){
-      sorgu = qtree.kapsayanalanbul(kok, sinirlar, function(sor){
-        console.log("sor");
-      });
+      return qtree.kapsayanalanbul(kok, sinirlar);
     }
   }
 }
