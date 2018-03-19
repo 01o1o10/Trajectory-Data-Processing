@@ -73,31 +73,30 @@ module.exports = {kare:
 			this.agacdolas(tree.childrens[i]);
 		}
 		if(tree.point != undefined){
-			console.log(tree.point);
+			this.points.push(tree.point);
 		}
 	},
 
-	kapsayanalanbul: function(tree, sinirlar){
-		if(tree.childrens !== undefined){
-			if(tree.childrens.kb.sinirlar.top > sinirlar.top && tree.childrens.kb.sinirlar.buttom < sinirlar.buttom && tree.childrens.kb.sinirlar.right > sinirlar.right && tree.childrens.kb.sinirlar.left < sinirlar.left){
-				tree = this.kapsayanalanbul(tree.childrens.kb, sinirlar);
+	kapsayanalanbul: function(tree, sinirlar, callack){
+		if(tree.childrens[1] !== undefined){
+			for(var i in tree.childrens){
+				if(tree.childrens[i].sinirlar.top > sinirlar.top && tree.childrens[i].sinirlar.buttom < sinirlar.buttom && tree.childrens[i].sinirlar.right > sinirlar.right && tree.childrens[i].sinirlar.left < sinirlar.left){
+					this.kapsayanalanbul(tree.childrens[i], sinirlar);
+					continue;
+				}
 			}
-			else if(tree.childrens.kd.sinirlar.top > sinirlar.top && tree.childrens.kd.sinirlar.buttom < sinirlar.buttom && tree.childrens.kd.sinirlar.right > sinirlar.right && tree.childrens.kd.sinirlar.left < sinirlar.left){
-				tree = this.kapsayanalanbul(tree.childrens.kd, sinirlar);
-			}
-			else if(tree.childrens.gb.sinirlar.top > sinirlar.top && tree.childrens.gb.sinirlar.buttom < sinirlar.buttom && tree.childrens.gb.sinirlar.right > sinirlar.right && tree.childrens.gb.sinirlar.left < sinirlar.left){
-				tree = this.kapsayanalanbul(tree.childrens.gb, sinirlar);
-			}
-			else if(tree.childrens.gd.sinirlar.top > sinirlar.top && tree.childrens.gd.sinirlar.buttom < sinirlar.buttom && tree.childrens.gd.sinirlar.right > sinirlar.right && tree.childrens.gd.sinirlar.left < sinirlar.left){
-				tree = this.kapsayanalanbul(tree.childrens.gd, sinirlar);
-			}
-			else{
-				return tree;
-			}
-			return tree;
 		}
 		else{
-			return tree;
+			var sorgu = [];
+			this.agacdolas(tree);
+			for(var i in this.points){
+				if(this.points[i].lat < sinirlar.top && this.points[i].lat > sinirlar.buttom && this.points[i].lng < sinirlar.right && this.points[i].lng > sinirlar.left){
+					sorgu.push(this.points[i]);
+				}
+			}
+			callack(sorgu);
 		}
-	}
+	},
+
+	points: []
 }

@@ -29,7 +29,7 @@ $(document).ready(function(){
 
 	$('#indirge').click(function(){
 		var socket = io.connect("http://localhost:1111");
-		var tolerans = $('#tolerans').val();
+		var tolerans = ($('#tolerans').val())/166985;
 		var veri = {tol: tolerans, path: latlong};
 		socket.emit("indirgeme", veri);
 		socket.on("indirgenmisveri", function(data){
@@ -56,15 +56,33 @@ $(document).ready(function(){
 
 	$('#sorgula').click(function(){
 		var socket = io.connect("http://localhost:1111");
-		var sinir = {top: latlong[10].lat, buttom: latlong[20].lat, left: latlong[10].lng, right: latlong[20].lng};
+		
+		var sinir = {top: 0, buttom: 0, left: 0, right: 0};
+		if(click1.lat > click2.lat){
+			sinir.top = click1.lat;
+			sinir.buttom = click2.lat;
+		} else {
+			sinir.top = click2.lat;
+			sinir.buttom = click1.lat;
+		}
+		if(click1.lng > click2.lng){
+			sinir.left = click2.lng;
+			sinir.right = click1.lng;
+		} else {
+			sinir.right = click2.lng;
+			sinir.left = click1.lng;
+		}
+		
 		var veri = {path: latlong, sinirlar: sinir};
 		socket.emit("alansorgulama", veri);
 		socket.on("sorgusonucu", function(data){
 			alert("veri geldi");
 		});
 	});
-
 });
+
+var clickcounter = 0;
+var click1, click2;
 
 function initMap() {
 		global.map = new google.maps.Map(document.getElementById('map'), {
@@ -81,5 +99,18 @@ function initMap() {
 		strokeWeight: 3
 	});
 
+
+	google.maps.event.addListener(map, 'click', function( event ){
+		clickcounter++;
+		if(clickcounter == 1){
+			click1 = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+		}
+		else if(clickcounter == 2){
+			click2 = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+			clickcounter = 0;
+		}
+	});
+
 	flightPath.setMap(map);
 }
+

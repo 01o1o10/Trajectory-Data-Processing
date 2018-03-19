@@ -45,20 +45,24 @@ io.sockets.on('connection', function (socket) {
 
   socket.on("alansorgulama", function(data){
     var path = data.path;
-    var sinirlar = data.sinirlar;
+    sinirlar = data.sinirlar;
+    console.log(sinirlar);
     var kok = new qtree.kare();
     qtree.kokolustur(kok, 128, -128, -128, 128);
     agacolustur(kok, path, sinirlar);
   });
 });
 
+var sinirlar;
+var sorgu = [];
 
 function agacolustur(kok, path, sinirlar){
   for(i in path){
     qtree.karebul(kok, path[i]);
-    console.log("Veri indeksleniyor: " + Math.round((i/path.length)*100) + "%");
     if(i == path.length-1){
-      console.log("bitti abi");
+      sorgu = qtree.kapsayanalanbul(kok, sinirlar, function(sor){
+        console.log("sor");
+      });
     }
   }
 }
