@@ -44,17 +44,7 @@ io.sockets.on('connection', function (socket) {
     sinirlar = data.sinirlar;
     var kok = new qtree.kare();
     qtree.kokolustur(kok, 128, -128, -128, 128);
-    var sorgu = agacolustur(kok, path, sinirlar);
-    for(var i in path){
-      for(var j in sorgu){
-        if(path[i] == sorgu[j]){
-          path.splice(i, 1);
-        }
-      }
-      if(i == path.length-1){
-        socket.emit("sorgusonucu", path);
-      }
-    }
+    socket.emit("sorgusonucu", agacolustur(kok, path, sinirlar));
   });
 });
 

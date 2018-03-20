@@ -28,7 +28,7 @@ $(document).ready(function(){
 	});
 
 	$('#indirge').click(function(){
-		var socket = io.connect("http://192.168.43.165:1111");
+		var socket = io.connect("http://localhost:1111");
 		var tolerans = ($('#tolerans').val())/1000000;
 		var veri = {tol: tolerans, path: latlong};
 		socket.emit("indirgeme", veri);
@@ -55,7 +55,7 @@ $(document).ready(function(){
 	});
 
 	$('#sorgula').click(function(){
-		var socket = io.connect("http://192.168.43.165:1111");
+		var socket = io.connect("http://localhost:1111");
 		var secim = $('select[name=secim]').val();
 		var veri;
 		if(secim == "ham"){
@@ -67,11 +67,11 @@ $(document).ready(function(){
 		socket.emit("alansorgulama", veri);
 		socket.on("sorgusonucu", function(data){
 			alert("Nokta sayısı: " + data.length);
-			for(var i in data){
-				addMarker(data[i]);
+
+			for(var k in data){
+				addMarker(data[k]);
 			}
 		});
-
 		
 		function addMarker(location) {
 			// Add the marker at the clicked location, and add the next-available label
