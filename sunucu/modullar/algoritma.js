@@ -1,22 +1,14 @@
 "use strict";
 
-module.exports = function rdp(points, epsilon, calback){
+module.exports = {rdp: function(points, epsilon, calback){
 	var i,
 		maxIndex = 0,
 		maxDistance = 0,
 		dist,
 		leftRecursiveResults, rightRecursiveResults,
 		filteredPoints = [];
-	// find the point with the maximum distance
-	/*for (i = 2; i < points.length - 1; i++) {
-		dist = finddist(points[i], [points[1], points[points.length - 1]]);
-		if (dist > maxDistance) {
-			maxIndex = i;
-			maxDistance = dist;
-		}
-	}*/
 	for(i = 1; i < points.length-1; i++) {
-		dist = finddist(points[i], [points[0], points[points.length - 1]]);
+		dist = this.finddist(points[i], [points[0], points[points.length - 1]]);
 		if(dist > maxDistance){
 			maxDistance = dist;
 			maxIndex = i;
@@ -24,16 +16,16 @@ module.exports = function rdp(points, epsilon, calback){
 	}
 	// if max distance is greater than epsilon, recursively simplify
 	if (maxDistance >= epsilon) {
-		leftRecursiveResults = rdp(points.slice(0, maxIndex), epsilon);
-		rightRecursiveResults = rdp(points.slice(maxIndex), epsilon);
+		leftRecursiveResults = this.rdp(points.slice(0, maxIndex), epsilon);
+		rightRecursiveResults = this.rdp(points.slice(maxIndex), epsilon);
 		filteredPoints = leftRecursiveResults.concat(rightRecursiveResults);
 	} else {
 		filteredPoints.push(points[0], points[points.length-1]);
 	}
 	return filteredPoints;
-}
+},
 
-function finddist(point, line) {
+finddist: function(point, line) {
 	var pointX = point.lng,
 		pointY = point.lat,
 		lineStart = {
@@ -55,10 +47,5 @@ function finddist(point, line) {
 		var sapma = Math.sin(gamma/180)*r;
 
 		return sapma;
-
-		/*slope = (lineEnd.y - lineStart.y) / (lineEnd.x - lineStart.x),
-		intercept = lineStart.y - (slope * lineStart.x),
-		result;
-	result = Math.abs(slope * pointX - pointY + intercept) / Math.sqrt(Math.pow(slope, 2) + 1);
-	return result;*/
+	}
 }

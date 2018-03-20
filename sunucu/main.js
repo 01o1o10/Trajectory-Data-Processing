@@ -5,11 +5,7 @@ var http = require("http");
 var server = http.createServer(processRequest).listen(1111, "127.0.0.1");
  
 function processRequest(request, response) {
-    
-    response.writeHead(200, {
-        "Content-Type": "text/html"
-    });
- 
+     
     response.write("Sunucu");
  
     response.end();
@@ -33,7 +29,7 @@ io.sockets.on('connection', function (socket) {
     var d1, d2;
     
     d1 = date.getTime();
-    var simplelatlong = alg(latlong, tolerans);
+    var simplelatlong = alg.rdp(latlong, tolerans);
     d2 = date.getTime();
 
     var indirgemesuresi = d2 - d1;
